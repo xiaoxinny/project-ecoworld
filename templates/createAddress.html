@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title%} Address | ecoworld {% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field%}
+
+<style>
+  .custom-card {
+      background-color: #f0f0f0; /* Light grey color */
+      border: 1px solid #ccc;
+  }
+</style>
+
+<h1 class = "text-center">Address<h1> 
+
+<div class="container mt-4 card custom-card fs-5">
+  <form method = "POST" action=""> 
+    <div class = "form-group my-3">
+      {{ render_field(form.name, class = "form control") }} 
+    </div>
+    <div class = "form-group"> 
+      {{ render_field(form.phone_number, class = "form control") }} 
+    </div> 
+    <div class = "form-group my-3"> 
+      {{ render_field(form.address, class = "form control") }} 
+    </div> 
+    <div class = "form-group"> 
+      {{ render_field(form.postal_code, class = "form control") }} 
+    </div> 
+    <div class="col-md-6 my-3">
+      <input type="submit" value="Submit" class="btn btn-success"/>
+    </div>
+  </form> 
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .custom-button {
+            border-radius: 25px;
+            padding: 20px;
+            width: 275px;
+            height: 60px;
+            margin: 12px;
+        }
+
+        .custom-box {
+            border-radius: 25px;
+            border: 1px solid green;
+            padding: 20px;
+            width: 100%;
+            text-align: left;
+            font-size: x-large;
+        }
+
+        .add-button {
+            border-radius: 25px;
+            padding: 20px;
+            width: 100px;
+            height: 60px;
+            margin: 12px;
+            font-weight: bold;
+            color: #857272;
+        }
+
+        .add-button:hover {
+            background-color: #424242;
+        }
+
+        .confirm-button {
+            border-radius: 5px;
+            padding: 20px;
+            width: 180px;
+            height: 60px;
+            margin: 12px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #45b34a;
+        }
+
+        .confirm-button:hover {
+            background-color: rgb(58, 147, 35);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Shipping Options</h1>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="submit" value="Doorstep Delivery" class="btn btn-success custom-button active" onclick="Button1()">
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Self-Collection" class="btn btn-secondary custom-button" onclick="Button2()">
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Network Collection" class="btn btn-secondary custom-button" onclick="Button3()">
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Pick Lockers" class="btn btn-secondary custom-button" onclick="Button4()">
+            </div>
+        </div>
+        <div id="box" class="custom-box">
+            <input id="add" type="submit" value="Edit" href="addressform.html">
+        </div>
+        <button id="confirm" class="btn btn-success confirm-button">Confirm</button>
+    </div>
+    <script>
+        function Button1() {
+            location.replace("doordelivery.html");
+        }
+
+        function Button2() {
+            location.replace("selfcollection.html");
+        }
+
+        function Button3() {
+            location.replace("netcollect.html");
+        }
+
+        function Button4() {
+            location.replace("picklocker.html");
+        }
+    </script>
+</body>
+</html>
