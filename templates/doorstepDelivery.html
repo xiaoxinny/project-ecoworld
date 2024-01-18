@@ -1,97 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% extends "base.html" %}
+{% block title %}Library Loan System - Shipping{% endblock %}
+
+{% block content %}
     <style>
-        .custom-button {
-            border-radius: 25px;
-            padding: 20px;
-            width: 275px;
-            height: 60px;
-            margin: 12px;
-        }
-
-        .custom-box {
-            border-radius: 25px;
-            border: 1px solid green;
-            padding: 20px;
+        .custom-btn-width {
             width: 100%;
-            text-align: left;
-            font-size: x-large;
         }
 
-        .add-button {
-            border-radius: 25px;
-            padding: 20px;
-            width: 100px;
-            height: 60px;
-            margin: 12px;
-            font-weight: bold;
-            color: #857272;
-        }
-
-        .add-button:hover {
-            background-color: #424242;
-        }
-
-        .confirm-button {
-            border-radius: 5px;
-            padding: 20px;
-            width: 180px;
-            height: 60px;
-            margin: 12px;
-            font-weight: bold;
-            color: #ffffff;
-            background-color: #45b34a;
-        }
-
-        .confirm-button:hover {
-            background-color: rgb(58, 147, 35);
+        .custom-btn-height {
+            height: 150%;
         }
     </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1 class="text-center">Shipping Options</h1>
+    <h1 class="text-center">Shipping Options</h1>
+    <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
-                <input type="submit" value="Doorstep Delivery" class="btn btn-success custom-button active" onclick="Button1()">
+                <input type="submit" value="Doorstep Delivery" class="btn {% if current_page == 'doorstepDelivery.html' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/doorstepDelivery')">
             </div>
             <div class="col-md-3">
-                <input type="submit" value="Self-Collection" class="btn btn-secondary custom-button" onclick="Button2()">
+                <input type="submit" value="Self-Collection" class="btn {% if current_page == 'selfcollect.html' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/selfcollect')">
             </div>
             <div class="col-md-3">
-                <input type="submit" value="Network Collection" class="btn btn-secondary custom-button" onclick="Button3()">
+                <input type="submit" value="Network Collection" class="btn {% if current_page == 'netcollect.html' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/netcollect')">
             </div>
             <div class="col-md-3">
-                <input type="submit" value="Pick Lockers" class="btn btn-secondary custom-button" onclick="Button4()">
+                <input type="submit" value="Pick-Lockers" class="btn {% if current_page == 'picklock.html' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/picklock')">
             </div>
         </div>
-        <div id="box" class="custom-box">
-            <input id="add" type="submit" value="Edit" href="addressform.html">
-        </div>
-        <button id="confirm" class="btn btn-success confirm-button">Confirm</button>
     </div>
-    <script>
-        function Button1() {
-            location.replace("doordelivery.html");
-        }
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Contact Number</th>
+        <th>Address</th>
+        <th>Postal Code</th>
+        <th>Postal Code</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in users_list %}
+     <tr>
+        <td>{{ user.get_user_id() }}</td>
+        <td>{{ user.get_name() }}</td>
+        <td>{{ user.get_contact_number() }}</td>
+        <td>{{ user.get_address() }}</td>
+        <td>{{ user.get_postal_code() }}</td>
+        <td>{{ user.get_email_address() }}</td>
+        <td><a href="/updateUser/{{user.get_user_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_user', id=user.get_user_id())}}" method="POST">
+>
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.get_user_id()}}">
+  Delete
+</button>
 
-        function Button2() {
-            location.replace("selfcollection.html");
-        }
+<!-- The Modal -->
+<div class="modal" id="myModal_{{user.get_user_id()}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-        function Button3() {
-            location.replace("netcollect.html");
-        }
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Confirmation</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
 
-        function Button4() {
-            location.replace("picklocker.html");
-        }
-    </script>
-</body>
-</html>
+      <!-- Modal body -->
+      <div class="modal-body">
+        Are you sure you want to delete {{user.get_name()}} ?
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <input type="submit" value="Delete" class="btn btn-danger">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+          </form>
+        </td>
+     </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+    function redirectToPage(page) {
+    console.log('Redirecting to:', page);
+    window.location.href = page;
+}
+</script>
+{% endblock %}

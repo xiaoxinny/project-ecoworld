@@ -13,10 +13,15 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
-@app.route('/login', methods=['GET', 'POST'])
 
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
+
+
+@app.route('/doorstepDelivery', methods=['GET', 'POST'])
+def doorstep():
+    return render_template('doorstepDelivery.html')
 
 
 @app.route('/contactUs', methods=['GET', 'POST'])
@@ -72,5 +77,6 @@ def checkout_address():
         return redirect(url_for('home'))
     return render_template('createAddress.html', form=create_address_form)
 
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5001, host='0.0.0.0')
