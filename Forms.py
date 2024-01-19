@@ -18,9 +18,9 @@ class CreateItem(Form):
 
 
 class CustomerSupportForm(Form):
-    name = StringField('How would you like to be addressed by?', validators=[validators.Length(min=1, max=150), InputRequired()])
+    name = StringField('How would you like to be addressed?', validators=[validators.Length(min=1, max=150), InputRequired()])
     summary = TextAreaField('How may we help you?', validators=[InputRequired()])
-    email = EmailField('Please enter your Email account', validators=[validators.Email(), InputRequired()])
+    email = EmailField('Please enter your email', validators=[validators.Email(), InputRequired()])
 
 
 class CreateAddressForm(Form):
