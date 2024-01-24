@@ -20,11 +20,17 @@
             }
         </style>
     </head>
-    <body>
+    <body style="padding-top:90px;">
         {% block navbar %}
             {% include 'includes/_navbar.html' %}
         {% endblock %}
-
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-success">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
         {% block content %} {% endblock %}
 
 

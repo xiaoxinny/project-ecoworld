@@ -1,13 +1,12 @@
 class User:
 
-    def __init__(self, name, email, salt, password, identity, ip_address):
+    def __init__(self, name, email, salt, password, ip_address):
         self.__name = name
         self.__email = email
         self.__salt = salt  # salt is used to hash the password
-        self.__password = password
-        self.__identity = identity
+        self.__hashed_password = password
         self.__ip_address = ip_address
-        self.__salt_hash = self.__salt + self.__password
+
 
     def get_name(self):
         return self.__name
@@ -18,14 +17,8 @@ class User:
     def get_salt(self):
         return self.__salt
 
-    def get_salt_hash(self):
-        return self.__salt + self.__password
-
     def get_password(self):
-        return self.__password
-
-    def get_identity(self):
-        return self.__identity
+        return self.__hashed_password
 
     def get_ip_address(self):
         return self.__ip_address
@@ -36,15 +29,8 @@ class User:
     def set_email(self, email):
         self.__email = email
 
-    def set_salt(self, salt):
-        self.__salt = salt  # salt is used to hash the password
-        self.__salt_hash = self.__salt + self.__password
-
     def set_password(self, password):
-        self.__password = password
-
-    def set_identity(self, identity):
-        self.__identity = identity
+        self.__hashed_password = password
 
     def set_ip_address(self, ip_address):
         self.__ip_address = ip_address
@@ -52,6 +38,6 @@ class User:
 
 class Staff(User):
 
-    def __init__(self, name, email, salt, password, identity, ip_address):
-        super().__init__(name, email, salt, password, identity, ip_address)
-        self.__is_admin = True
+    def __init__(self, name, email, salt, password, ip_address, staff_id):
+        super().__init__(name, email, salt, password, ip_address)
+        self.__staff_id = staff_id

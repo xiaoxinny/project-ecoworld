@@ -1,12 +1,22 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from wtforms import StringField, SubmitField
-from Forms import CreateItem, CustomerSupportForm, CreateAddressForm
+from Forms import CreateItemForm, CustomerSupportForm, CreateAddressForm, LoginForm, SignUpForm
 from Item import Item
 from Support import Support
 from Address import Address
+from Users import User, Staff
 import shelve
+import uuid
+import bcrypt
+
+
 
 app = Flask(__name__)
+app.secret_key = 'aS$H0c38_#F1}3zA1]x'
+
+
+def generate_random_id():
+    return str(uuid.uuid4())
 
 
 @app.route('/')
@@ -14,9 +24,50 @@ def home():
     return render_template('home.html')
 
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    signup_form = SignUpForm(request.form)
+    if request.method == 'POST' and signup_form.validate():
+        with shelve.open('users.db', 'c') as udb:
+            users_dict = udb.get('Users', {})
+            if signup_form.password.data == signup_form.confirm_password.data:
+                salt = bcrypt.gensalt()
+                hashed_password = bcrypt.hashpw(signup_form.password.data.encode('utf-8'), salt)
+                user = User(signup_form.username.data, signup_form.email.data, salt, hashed_password, request.remote_addr)
+                users_dict[signup_form.email.data] = user
+                udb['Users'] = users_dict
+                flash('Account created successfully. You can now sign in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('signup.html', form=signup_form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    login_form = LoginForm(request.form)
+    if request.method == 'POST' and login_form.validate():
+        with shelve.open('users.db', 'c') as udb:
+            users_dict = udb.get('Users', {})
+            if login_form.email.data in users_dict:
+                user = users_dict[login_form.email.data]
+                login_password_bytes = login_form.password.data.encode('utf-8')
+                hashed_login_password = bcrypt.hashpw(login_password_bytes, user.get_salt())
+                if users_dict[login_form.email.data].get_password() == hashed_login_password:
+                    session['username'] = user.get_name()
+                    return redirect(url_for('logged_in_session',username=user.get_name()))
+    return render_template('login.html', form=login_form)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('home'))
+
+@app.route('/<string:username>')
+def logged_in_session(username):
+    if 'username' in session:
+        return render_template('home.html', username=username)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/doorstepDelivery', methods=['GET', 'POST'])
@@ -50,11 +101,11 @@ def blog():
 
 @app.route('/staff/createItem', methods=['GET', 'POST'])
 def staff_create_item():
-    create_item_form = CreateItem(request.form)
+    create_item_form = CreateItemForm(request.form)
     if request.method == 'POST' and create_item_form.validate():
         with shelve.open('items.db', 'c') as idb:
             items_dict = idb.get('items', {})
-            item = Item(create_item_form.item_id.data, create_item_form.name.data, 
+            item = Item(generate_random_id(), create_item_form.name.data,
                         create_item_form.description.data, create_item_form.price.data, 
                         create_item_form.stock_count.data, create_item_form.supplier.data, 
                         create_item_form.dimensions.data)

@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom border-secondary fixed-top">
-    <div class="container">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom border-secondary fixed-top d-block" style="z-index:1000;">
+    <div class="container d-flex align-items-center">
         <button class="navbar-toggler ms-left" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar" aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -14,9 +14,10 @@
                               Categories
                           </button>
                           <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"></a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                              <li><a class="dropdown-item" href="#">My Account</a></li>
+                              <li><a class="dropdown-item" href="#">My Purchases</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
                           </ul>
                     </div>
                 </li>
@@ -28,21 +29,42 @@
                 </li>
             </ul>
         </div>
-        <div class="text-end">
-            <a href="/login" class="text-light text-decoration-none me-1 fw-semibold">
-                <button type="button" class="btn btn-success me-2 fw-semibold">Login</button>
-            </a>
-            <a href="#" class="text-light text-decoration-none me-3 fw-semibold">
-                <button type="button" class="btn btn-light fw-semibold">Sign-Up</button>
-            </a>
-        </div>
+        {% if 'username' in session %}
+            <ul class="profile d-flex align-items-center my-0">
+                <li class="nav-item">
+                    <a href="/<string:username>/profile" class="text-light text-decoration-none me-3 fw-semibold">
+                        <img height="40px" width="40px" src="static/img/App Dev - Login Photo.png" alt="">
+                    </a>
+                </li>
+                <li class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle bg-dark border-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 6px">
+                          {{ session['username'] }}
+                      </button>
+                      <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="#">My Account</a></li>
+                          <li><a class="dropdown-item" href="#">My Purchases</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                      </ul>
+                </li>
+            </ul>
+        {% else %}
+            <div class="text-end">
+                <a href="/login" class="text-light text-decoration-none me-1 fw-semibold">
+                    <button type="button" class="btn btn-success me-2 fw-semibold">Login</button>
+                </a>
+                <a href="/signup" class="text-light text-decoration-none me-3 fw-semibold">
+                    <button type="button" class="btn btn-light fw-semibold">Sign-Up</button>
+                </a>
+            </div>
+        {% endif %}
     </div>
 </nav>
-<header id="logo-header" class="py-2 mb-4 border-bottom bg-dark border-secondary" style="--bs-bg-opacity: .95; margin-top: 56px;">
+<header id="logo-header" class="py-2 mb-4 border-bottom bg-dark border-secondary fixed-top d-block" style="margin-top:56px; --bs-bg-opacity: .95;z-index:500;">
     <div class="container d-flex flex-wrap justify-content-center align-items-center">
         <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto">
             <a href="/" class="text-dark text-decoration-none">
-                <img width="65" height="65" src="https://i.ibb.co/7SwggJr/App-Dev-Logo.png" alt="App-Dev-Logo" border="0">
+                <img width="65" height="65" src="https://i.ibb.co/7SwggJr/App-Dev-Logo.png" alt="App-Dev-Logo">
             </a>
             <span class="ms-2 text-white fw-bold fs-1"><span class="ms-2 text-success fw-bold fs-1">eco</span>world</span>
         </div>

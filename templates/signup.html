@@ -1,2 +1,45 @@
 {% extends "base.html" %}
+{% block title %}Sign Up | ecoworld{% endblock %}
 
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="" onkeyup="return validateForm()">
+                <div class="form-group mt-2">
+                    {{ render_field(form.username, class="form-control") }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ render_field(form.email, class="form-control") }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ render_field(form.password, class="form-control", id="password") }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ render_field(form.confirm_password, class="form-control", id="confirmPassword") }}
+                    <small id="passwordError" class="text-danger"></small>
+                </div>
+                <input type="submit" value="Submit" class="btn btn-primary mt-3" id="submitButton">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var errorSpan = document.getElementById("passwordError");
+            var submitButton = document.getElementById("submitButton");
+
+            if (password !== confirmPassword) {
+                errorSpan.textContent = "Passwords do not match";
+                submitButton.disabled = true;
+                return false;
+            } else {
+                errorSpan.textContent = "";
+                submitButton.disabled = false;
+                return true;
+            }
+        }
+    </script>
+{% endblock %}

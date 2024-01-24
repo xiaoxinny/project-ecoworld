@@ -1,11 +1,12 @@
 class Item:
-    def __init__(self, item_id, name, description, price, stock_count, dimensions, supplier):
+    def __init__(self, item_id, name, description, price, stock_count, dimensions, supplier,category):
         self.__item_id = item_id
         self.__description = description
         self.__price = price
         self.__stock_count = stock_count
         self.__dimensions = dimensions
         self.__supplier = supplier
+        self.__category = category
 
     # accessors
     def get_item_id(self):
@@ -40,4 +41,7 @@ class Item:
         self.__dimensions = dimensions
 
     def set_supplier(self, supplier):
-        self.__supplier = supplier 
+        self.__supplier = supplier
+
+    def get_category(self):
+        return self.__category

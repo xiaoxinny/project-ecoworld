@@ -1,14 +1,20 @@
 from wtforms import Form, StringField, FloatField, IntegerField, TextAreaField, EmailField, validators
 from wtforms.validators import InputRequired, NumberRange
-import uuid
 
 
-def generate_random_id():
-    return str(uuid.uuid4())
+class LoginForm(Form):
+    email = EmailField('Email', validators=[InputRequired(), validators.Email()])
+    password = StringField('Password', validators=[InputRequired()])
 
 
-class CreateItem(Form):
-    item_id = generate_random_id()
+class SignUpForm(Form):
+    username = StringField('Name', validators=[InputRequired()])
+    email = EmailField('Email', validators=[InputRequired(), validators.Email()])
+    password = StringField('Password', validators=[InputRequired()])
+    confirm_password = StringField('Confirm Password', validators=[InputRequired()])
+
+
+class CreateItemForm(Form):
     name = StringField('Name', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[InputRequired()])
     price = FloatField('Price', validators=[InputRequired(), NumberRange(min=0)])
