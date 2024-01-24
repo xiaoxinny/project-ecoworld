@@ -10,7 +10,6 @@ import uuid
 import bcrypt
 
 
-
 app = Flask(__name__)
 app.secret_key = 'aS$H0c38_#F1}3zA1]x'
 
@@ -62,6 +61,7 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('home'))
 
+
 @app.route('/<string:username>')
 def logged_in_session(username):
     if 'username' in session:
@@ -70,9 +70,9 @@ def logged_in_session(username):
         return redirect(url_for('login'))
 
 
-@app.route('/doorstepDelivery', methods=['GET', 'POST'])
-def doorstep():
-    return render_template('doorstepDelivery.html')
+# @app.route('/doorstepDelivery', methods=['GET', 'POST'])
+# def doorstep():
+#     return render_template('doorstepDelivery.html')
 
 
 @app.route('/contactUs', methods=['GET', 'POST'])
@@ -99,6 +99,8 @@ def blog():
     return render_template('blog.html')
 
 
+
+
 @app.route('/staff/createItem', methods=['GET', 'POST'])
 def staff_create_item():
     create_item_form = CreateItemForm(request.form)
@@ -115,18 +117,36 @@ def staff_create_item():
     return render_template('createItem.html', form=create_item_form)
 
 
+@approute()
+
+
 @app.route('/cart/checkout/address', methods=['GET', 'POST'])
 def checkout_address():
     create_address_form = CreateAddressForm(request.form)
     if request.method == 'POST' and create_address_form.validate():
         with shelve.open('address.db', 'c') as adb:
             address_dict = adb.get('address', {})
-            address = Address(create_address_form.name.data, create_address_form.phone_number.data, create_address_form.address.data, create_address_form.postal_code.data)
+            address = Address(create_address_form.name.data, create_address_form.address.data, create_address_form.postal_code.data, create_address_form.email_address.data,  create_address_form.contact_number.data)
             address_dict[address.get_address()] = address
             adb['Address'] = address_dict
 
         return redirect(url_for('home'))
     return render_template('createAddress.html', form=create_address_form)
+
+@app.route('/doorstepDelivery')
+def doorstep():
+    address_dict = {}
+    db = shelve.open('user.db', 'r')
+    address_dict = db['Address']
+    db.close()
+
+    address_list = []
+    for key in address_dict:
+        address = address_dict.get(key)
+        address_list.append(address)
+
+    return render_template('doorstepDelivery.html', count=len(address_list), users_list=address_list)
+
 
 
 if __name__ == '__main__':

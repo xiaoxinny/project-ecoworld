@@ -11,20 +11,21 @@
             height: 150%;
         }
     </style>
+
     <h1 class="text-center">Shipping Options</h1>
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-3">
-                <input type="submit" value="Doorstep Delivery" class="btn {% if current_page == 'doorstepDelivery.html' %}btn-secondary active-button{% else %}
-                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/doorstepDelivery')">
+                <input type="submit" value="Doorstep Delivery" class="btn {% if current_page == '/retrieveUsers' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/doorstepDelivery.html')">
             </div>
             <div class="col-md-3">
-                <input type="submit" value="Self-Collection" class="btn {% if current_page == 'selfcollect.html' %}btn-secondary active-button{% else %}
-                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/selfcollect')">
+                <input type="submit" value="Self-Collection" class="btn {% if current_page == 'selfcoll.html' %}btn-secondary active-button{% else %}
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/selfcoll')">
             </div>
             <div class="col-md-3">
                 <input type="submit" value="Network Collection" class="btn {% if current_page == 'netcollect.html' %}btn-secondary active-button{% else %}
-                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/netcollect')">
+                btn-success{% endif %} custom-btn-width custom-btn-height" onclick="redirectToPage('/shipping/netcoll')">
             </div>
             <div class="col-md-3">
                 <input type="submit" value="Pick-Lockers" class="btn {% if current_page == 'picklock.html' %}btn-secondary active-button{% else %}
@@ -32,70 +33,84 @@
             </div>
         </div>
     </div>
-<div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Contact Number</th>
-        <th>Address</th>
-        <th>Postal Code</th>
-        <th>Postal Code</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for user in users_list %}
-     <tr>
-        <td>{{ user.get_user_id() }}</td>
-        <td>{{ user.get_name() }}</td>
-        <td>{{ user.get_contact_number() }}</td>
-        <td>{{ user.get_address() }}</td>
-        <td>{{ user.get_postal_code() }}</td>
-        <td>{{ user.get_email_address() }}</td>
-        <td><a href="/updateUser/{{user.get_user_id()}}" class="btn btn-warning">Update</a></td>
-        <td>
-          <form action="{{url_for('delete_user', id=user.get_user_id())}}" method="POST">
->
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.get_user_id()}}">
-  Delete
-</button>
+    <br>
+<p><strong>Your details</strong></p>
+<div class="card">
+  <div class="card-body">
+      <table class="table table-striped">
+        <tbody>
+        {% for address in address_list %}
+         <tr>
+             <tr>
+                 <th>Name:</th>
+                 <td>{{ address.get_name() }}</td>
+             </tr>
+             <tr>
+                 <th>Address:</th>
+                 <td>{{ address.get_address() }}</td>
+             </tr>
+            <tr>
+                 <th>Postal Code:</th>
+                 <td>{{ address.get_postal_code() }}</td>
+            </tr>
+            <tr>
+                 <th>Email:</th>
+                 <td>{{ address.get_email_address() }}</td>
+            </tr>
+            <tr>
+                 <th>Contact Number:</th>
+                 <td>{{ address.get_contact_number() }}</td>
+            </tr>
+            <td><a href="/updateUser/{{user.get_user_id()}}" class="btn btn-link">Update</a></td>
+            <td>
+              <form action="{{url_for('delete_user', id=user.get_user_id())}}" method="POST">
 
-<!-- The Modal -->
-<div class="modal" id="myModal_{{user.get_user_id()}}">
-  <div class="modal-dialog">
-    <div class="modal-content">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.get_user_id()}}">
+              Delete
+            </button>
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Delete Confirmation</h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{user.get_user_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{user.get_name()}} ?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
       </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        Are you sure you want to delete {{user.get_name()}} ?
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <input type="submit" value="Delete" class="btn btn-danger">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-
+    </div>
+              </form>
+            </td>
+         </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
+<br>
+<div class="container">
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <button class="btn btn-warning btn-lg" type="submit">Next</button>
     </div>
   </div>
 </div>
-          </form>
-        </td>
-     </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
-
 
 <script>
     function redirectToPage(page) {

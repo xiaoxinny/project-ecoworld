@@ -3,24 +3,32 @@
 
 {% block content %}
 {% from "includes/_formHelper.html" import render_field %}
-    <div class="card">
-        <div class="card-body">
-            <form method="POST" action="" onkeyup="return validateForm()">
-                <div class="form-group mt-2">
-                    {{ render_field(form.username, class="form-control") }}
+    <div class="container row justify-content-center mx-auto my-4 align-items-center">
+        <div class="col-lg-6">
+            <img src="static/img/App Dev - Logo (Sign Up).png" alt="" height="450px" width="450px">
+        </div>
+        <div class="col-lg-6">
+            <div class="card px-3">
+                <div class="card-body">
+                    <h3 class="my-2 py-2 fw-bold">Sign Up</h3>
+                    <form method="POST" action="" onkeyup="return validateForm()">
+                        <div class="form-group mt-2">
+                            {{ render_field(form.username, class="form-control") }}
+                        </div>
+                        <div class="form-group mt-2">
+                            {{ render_field(form.email, class="form-control") }}
+                        </div>
+                        <div class="form-group mt-2">
+                            {{ render_field(form.password, class="form-control", id="password") }}
+                        </div>
+                        <div class="form-group mt-2">
+                            {{ render_field(form.confirm_password, class="form-control", id="confirmPassword") }}
+                            <small id="passwordError" class="text-danger"></small>
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-primary mt-3" id="submitButton">
+                    </form>
                 </div>
-                <div class="form-group mt-2">
-                    {{ render_field(form.email, class="form-control") }}
-                </div>
-                <div class="form-group mt-2">
-                    {{ render_field(form.password, class="form-control", id="password") }}
-                </div>
-                <div class="form-group mt-2">
-                    {{ render_field(form.confirm_password, class="form-control", id="confirmPassword") }}
-                    <small id="passwordError" class="text-danger"></small>
-                </div>
-                <input type="submit" value="Submit" class="btn btn-primary mt-3" id="submitButton">
-            </form>
+            </div>
         </div>
     </div>
 

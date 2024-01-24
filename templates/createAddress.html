@@ -9,27 +9,35 @@
       background-color: #f0f0f0; /* Light grey color */
       border: 1px solid #ccc;
   }
+      .custom-card {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+    }
 </style>
 
-<h1 class = "text-center">Address</h1>
+<h1 class="text-center">Address</h1>
+<p>Please fill in your address</p>
 
-<div class="container mt-4 card custom-card fs-5">
-  <form method = "POST" action=""> 
-    <div class = "form-group my-3">
-      {{ render_field(form.name, class = "form control") }} 
+<div class="container col-md-7 mt-4 card custom-card">
+  <form method="POST" action="">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        {{ render_field(form.name, class="form-control") }}
+      </div>
+      <div class="form-group">
+        {{ render_field(form.address, class="form-control") }}
+      </div>
     </div>
-    <div class = "form-group"> 
-      {{ render_field(form.phone_number, class = "form control") }} 
-    </div> 
-    <div class = "form-group my-3"> 
-      {{ render_field(form.address, class = "form control") }} 
-    </div> 
-    <div class = "form-group"> 
-      {{ render_field(form.postal_code, class = "form control") }} 
-    </div> 
-    <div class="col-md-6 my-3">
-      <input type="submit" value="Submit" class="btn btn-success"/>
+    <div class="form-group col-md-6">
+      {{ render_field(form.postal_code, class="form-control") }}
     </div>
-  </form> 
+    <div class="form-group col-md-6">
+      {{ render_field(form.email_address, class="form-control") }}
+    </div>
+    <div class="form-group col-md-6">
+      {{ render_field(form.contact_number, class="form-control") }}
+    </div>
+    <input type="submit" value="Update" class="btn btn-success my-3"/>
+  </form>
 </div>
 {% endblock %}
