@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, FloatField, IntegerField, TextAreaField, EmailField, validators
+from wtforms import Form, StringField, FloatField, IntegerField, TextAreaField, EmailField, FileField, SelectField, validators
 from wtforms.validators import InputRequired, NumberRange
 
 
@@ -15,12 +15,19 @@ class SignUpForm(Form):
 
 
 class CreateItemForm(Form):
+    photo = FileField('Cover Photo', validators=[InputRequired()])
     name = StringField('Name', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[InputRequired()])
     price = FloatField('Price', validators=[InputRequired(), NumberRange(min=0)])
     stock_count = IntegerField('Stock Count', validators=[InputRequired(), NumberRange(min=0)])
+    dimensions = StringField('Dimensions', validators=[InputRequired()])
     supplier = StringField('Supplier', validators=[InputRequired()])
-    dimensions = StringField('Dimensions', validators=[InputRequired()]) 
+    category = SelectField('Category', choices=[('a', 'a'), ('b', 'b')], validators=[InputRequired()])
+
+
+# def edit_category(request, id):
+#     form = CreateItemForm(request.POST)
+#     form.category.choices = [(g.id, g.name)]
 
 
 class CustomerSupportForm(Form):

@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from wtforms import StringField, SubmitField
 from Forms import CreateItemForm, CustomerSupportForm, CreateAddressForm, LoginForm, SignUpForm
 from Item import Item
 from Support import Support
@@ -8,6 +7,22 @@ from Users import User, Staff
 import shelve
 import uuid
 import bcrypt
+import requests
+
+
+def image_upload(key, file):
+    url = "https://api.imgbb.com/1/upload"
+    payload = { "key": key, "image": file }
+    response = requests.post(url, payload)
+    if response.status_code == 200:
+        json_response = response.json()
+        if json_response["status"] == "success":
+            return json_response["data"]["url"]
+        else:
+            print("Upload failed. Error message:", json_response["error"]["message"])
+    else:
+        print("Failed to upload image. HTTP status code:", response.status_code)
+    return None
 
 
 app = Flask(__name__)
@@ -99,25 +114,22 @@ def blog():
     return render_template('blog.html')
 
 
-
-
 @app.route('/staff/createItem', methods=['GET', 'POST'])
 def staff_create_item():
     create_item_form = CreateItemForm(request.form)
     if request.method == 'POST' and create_item_form.validate():
+        imgbb_api_key = '64ca72c99bdb6b5763bc2daa0d353f44'
+        image_url = image_upload(imgbb_api_key, create_item_form.photo.data)
         with shelve.open('items.db', 'c') as idb:
             items_dict = idb.get('items', {})
-            item = Item(generate_random_id(), create_item_form.name.data,
+            item = Item(image_url, generate_random_id(), create_item_form.name.data,
                         create_item_form.description.data, create_item_form.price.data, 
-                        create_item_form.stock_count.data, create_item_form.supplier.data, 
-                        create_item_form.dimensions.data)
+                        create_item_form.stock_count.data, create_item_form.dimensions.data,
+                        create_item_form.supplier.data, create_item_form.category.data)
             items_dict[item.get_item_id()] = item
             idb['Items'] = items_dict
         return redirect(url_for('home'))
     return render_template('createItem.html', form=create_item_form)
-
-
-@approute()
 
 
 @app.route('/cart/checkout/address', methods=['GET', 'POST'])
@@ -126,12 +138,13 @@ def checkout_address():
     if request.method == 'POST' and create_address_form.validate():
         with shelve.open('address.db', 'c') as adb:
             address_dict = adb.get('address', {})
-            address = Address(create_address_form.name.data, create_address_form.address.data, create_address_form.postal_code.data, create_address_form.email_address.data,  create_address_form.contact_number.data)
+            address = Address(create_address_form.name.data, create_address_form.phone_number.data, create_address_form.address.data, create_address_form.postal_code.data)
             address_dict[address.get_address()] = address
             adb['Address'] = address_dict
 
         return redirect(url_for('home'))
     return render_template('createAddress.html', form=create_address_form)
+
 
 @app.route('/doorstepDelivery')
 def doorstep():
