@@ -132,6 +132,19 @@ def staff_create_item():
     return render_template('createItem.html', form=create_item_form)
 
 
+@app.route('/staff/viewItem')
+def staff_view_items():
+    with shelve.open('items.db','c') as idb:
+        items_dict = idb.get('items', {})
+        if items_dict == {}:
+            print('Error in retrieving Users from user.db.')
+        item_list = []
+        for key in items_dict:
+            item = items_dict.get(key)
+            item_list.append(item)
+    return render_template('viewItem.html', count=len(items_dict), items_list=item_list)
+
+
 @app.route('/cart/checkout/address', methods=['GET', 'POST'])
 def checkout_address():
     create_address_form = CreateAddressForm(request.form)
