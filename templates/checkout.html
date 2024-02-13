@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Checkout | ecoworld{% endblock %}
+{% block content %}
+    <section class="section">
+        <div class="container my-3">
+            <h1>Checkout</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" id="submitBtn">Purchase!</button>
+        </div>
+    </section>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{ url_for('static', filename='payment.js') }}"></script>
+{% endblock %}

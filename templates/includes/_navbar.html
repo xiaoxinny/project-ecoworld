@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom border-secondary fixed-top d-block" style="z-index:1000;">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom border-secondary fixed-top d-block"
+     style="z-index:1000;">
     <div class="container d-flex align-items-center">
-        <button class="navbar-toggler ms-left" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar" aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
+        <button class="navbar-toggler ms-left" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar"
+                aria-controls="navbarNavAltMarkup" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="n_bar">
@@ -10,15 +12,15 @@
                 </li>
                 <li class="nav-item">
                     <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle bg-dark border-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 6px">
-                              Categories
-                          </button>
-                          <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="#">My Account</a></li>
-                              <li><a class="dropdown-item" href="#">My Purchases</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                          </ul>
+                        <button class="btn btn-secondary dropdown-toggle bg-dark border-dark" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" style="padding: 6px">
+                            Categories
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/ecogoodies">Eco-Goodies</a></li>
+                            <li><a class="dropdown-item" href="/dailyessentials">Daily Essentials</a></li>
+                            <li><a class="dropdown-item" href="/paperproducts">Paper Products</a></li>
+                        </ul>
                     </div>
                 </li>
                 <li class="nav-item">
@@ -29,7 +31,7 @@
                 </li>
             </ul>
         </div>
-        {% if 'username' in session %}
+        {% if 'username' in session or 'state' in session %}
             <ul class="profile d-flex align-items-center my-0">
                 <li class="nav-item">
                     <a href="/<string:username>/profile" class="text-light text-decoration-none me-3 fw-semibold">
@@ -37,15 +39,22 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle bg-dark border-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 6px">
-                          {{ session['username'] }}
-                      </button>
-                      <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">My Account</a></li>
-                          <li><a class="dropdown-item" href="#">My Purchases</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                      </ul>
+                    <button class="btn btn-secondary dropdown-toggle bg-dark border-dark" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="padding: 6px">
+                        {% if 'username' in session %}
+                            {{ session['username'] }}
+                        {% elif 'state' in session %}
+                            {{ session['name'] }}
+                        {% endif %}
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">My Account</a></li>
+                        <li><a class="dropdown-item" href="#">My Purchases</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
                 </li>
             </ul>
         {% else %}
@@ -60,15 +69,17 @@
         {% endif %}
     </div>
 </nav>
-<header id="logo-header" class="py-2 mb-4 border-bottom bg-dark border-secondary fixed-top d-block" style="margin-top:56px; --bs-bg-opacity: .95;z-index:500;">
+<header id="logo-header" class="py-2 mb-4 border-bottom bg-dark border-secondary fixed-top d-block"
+        style="margin-top:56px; --bs-bg-opacity: .95;z-index:500;">
     <div class="container d-flex flex-wrap justify-content-center align-items-center">
         <div class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto">
             <a href="/" class="text-dark text-decoration-none">
                 <img width="65" height="65" src="https://i.ibb.co/7SwggJr/App-Dev-Logo.png" alt="App-Dev-Logo">
             </a>
-            <span class="ms-2 text-white fw-bold fs-1"><span class="ms-2 text-success fw-bold fs-1">eco</span>world</span>
+            <span class="ms-2 text-white fw-bold fs-1"><span
+                    class="ms-2 text-success fw-bold fs-1">eco</span>world</span>
         </div>
-        <form class="col-12 col-lg-auto col-md-8 col-sm-8 mb-3 mb-lg-0 me-lg-3" >
+        <form class="col-12 col-lg-auto col-md-8 col-sm-8 mb-3 mb-lg-0 me-lg-3">
             <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
     </div>

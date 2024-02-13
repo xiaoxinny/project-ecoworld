@@ -1,5 +1,7 @@
 from wtforms import Form, StringField, FloatField, IntegerField, TextAreaField, EmailField, FileField, SelectField, validators
 from wtforms.validators import InputRequired, NumberRange
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 
 
 class LoginForm(Form):
@@ -15,19 +17,13 @@ class SignUpForm(Form):
 
 
 class CreateItemForm(Form):
-    photo = FileField('Cover Photo', validators=[InputRequired()])
     name = StringField('Name', validators=[InputRequired()])
     description = TextAreaField('Description', validators=[InputRequired()])
     price = FloatField('Price', validators=[InputRequired(), NumberRange(min=0)])
     stock_count = IntegerField('Stock Count', validators=[InputRequired(), NumberRange(min=0)])
-    dimensions = StringField('Dimensions', validators=[InputRequired()])
+    dimensions = StringField('Dimensions', render_kw={"placeholder": "Length x Width x Height, or NA if not applicable"}, validators=[InputRequired()])
     supplier = StringField('Supplier', validators=[InputRequired()])
-    category = SelectField('Category', choices=[('a', 'a'), ('b', 'b')], validators=[InputRequired()])
-
-
-# def edit_category(request, id):
-#     form = CreateItemForm(request.POST)
-#     form.category.choices = [(g.id, g.name)]
+    category = SelectField('Category', choices=[('Eco-Foodies', 'Eco-Foodies'), ('Daily Essentials', 'Daily Essentials'), ('Paper Products', 'Paper Products')], validators=[InputRequired()])
 
 
 class CustomerSupportForm(Form):

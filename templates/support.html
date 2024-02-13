@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Support | eccoworld{% endblock %}
+{% block content %}
+
+<h1>Concerns to be addressed</h1>
+
+ <li style="display: inline-block">
+     <div class="card" style="width: 18rem;">
+        <ul>
+            {% for support_details in support %}
+                <li>
+                    <strong>Name:</strong> {{ support_details.get_name() }}<br>
+                    <strong>Email:</strong> {{ support_details.get_email() }}<br>
+                    <strong>Description:</strong> {{ support_details.get_summary() }}<br>
+                    <hr>
+                </li>
+            {% endfor %}
+        </ul>
+     </div>
+ </li>
+
+{% endblock %}
+
